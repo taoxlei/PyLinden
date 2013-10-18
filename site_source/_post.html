@@ -1,0 +1,12 @@
+{% extends "_base.html" %} 
+{% block title %}{{ post.title }}{% endblock %} 
+{% block head %} 
+{% endblock %} 
+{% block content %} 
+<div class="container">
+    <h2>{{ post.title }}</h2>
+     <span>{{ post.date }}</span>
+    <p>{{ post.html }}</p>
+    <a href="{{ post.newer.url }}">较新一篇</a>|<a href="{{ post.older.url }}">较旧一篇</a>|
+</div>
+{% endblock %} 

@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>管理</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A pylinden static site">
+    <meta name="author" content="Tao">
+
+    <link href="/admin/static/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <!--link href="static/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet"-->
+    <!-- Custom styles for this template -->
+    <link href="/admin/static/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+    
+</head>
+<body>
+    <div class="container">
+        <button id="btn_hello" type="button" class="btn btn-success">Hello</button>
+        <button id="btn_generate" type="button" class="btn btn-success">生成</button>
+        <button id="btn_listoutput" type="button" class="btn btn-success">列出输出目录文件</button>
+        <button id="btn_reset" type="button" class="btn btn-success">重置所有输出</button>
+        <hr>
+        <textarea id="msg" rows="10" cols="50" style="width: 100%; height: 400px; ">返回消息</textarea>
+    </div><!-- /container -->
+ 
+<!-- javascript -->
+<script src="/admin/static/jquery-1.10.2.min.js"></script>
+<script src="/admin/static/bootstrap3/js/bootstrap.min.js"></script>
+<script>
+
+msgText = "";
+
+function Hello() {
+    $.ajax({
+      type: "GET",
+      url: "/admin/do?cmd=hello",
+      contentType: "application/json",
+      dataType: "text",
+      error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
+      success: function (result) {
+        $("#msg").text(result);
+      }
+    });
+}
+function Generate() {
+    $.ajax({
+        type: "GET",
+        url: "/admin/do?cmd=generate",
+        contentType: "application/json",
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
+        success: function (result) {
+            $.each(result, function(i, value){
+               msgText += value + '\n'
+            })
+            $("#msg").text(msgText);
+        }
+    });
+}
+  
+function ListOutput() {
+    msgText = ''
+    $.ajax({
+        type: "GET",
+        url: "/admin/do?cmd=listoutput",
+        //data: JSON.stringify(data),
+        contentType: "application/json",
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
+        success: function (result) {
+            $.each(result, function(i, value){
+               msgText += value + '\n'
+            })
+            $("#msg").text(msgText);
+        }
+    });
+}
+  
+  
+function Reset() {
+    $.ajax({
+        type: "GET",
+      url: "/admin/do?cmd=reset",
+      //data: JSON.stringify(data),
+        contentType: "application/json",
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
+        success: function (result) {
+            $.each(result, function(i, value){
+               msgText += value + '\n'
+            })
+            $("#msg").text(msgText);
+        }
+    });
+}
+
+
+$(document).ready(function () {
+    // 一些事件绑定
+    $("#btn_hello").click(function (e) {
+        e.preventDefault();
+        Hello()
+    });
+    $("#btn_generate").click(function (e) {
+        e.preventDefault();
+        Generate()
+    });
+    $("#btn_listoutput").click(function (e) {
+        e.preventDefault();
+        ListOutput()
+    });
+    $("#btn_reset").click(function (e) {
+        e.preventDefault();
+        Reset()
+    });
+   
+});
+
+</script>
+<body>
+</html>

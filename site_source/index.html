@@ -1,0 +1,71 @@
+{% extends "_base.html" %} 
+{% block title %}首页{% endblock %} 
+{% block content %} 
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>PyLinden</h1>
+    <p>PyLinden是python实现的一个静态博客生成系统。生成系统实现了增量生成，只有逻辑上改动过的文件才会重新生成。</p>
+    <p><a class="btn btn-primary btn-lg" href="#">马上获取...</a></p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+  
+  <div class="col-md-8">
+    <h2>PyLinden是什么</h2> 
+    <p> 
+      PyLinden是python实现的一个静态博客生成系统。
+    </p> 
+    <ul>
+      <li>源于对Github Pages的些许不满意（国外服务商，没有相册功能），以及对python的喜爱。</li>
+      <li>可以轻松部署于BAE（Baidu App Engine），实践云式网络生活方式。</li>
+      <li>仅使用文件系统，摒弃数据库以及BAE的bucket等存储服务。如果要迁移，也几乎只是拷贝文件而已。</li>
+      <li>支持（且仅）markdown格式书写日志，如果不清楚markdown的优点请度娘谷哥之。</li>
+      <li>基于简单够用的设计哲学构建。在没有大的思想波动的前提下，仅会实现日志与相册两个功能块。</li>
+    </ul>
+    <h2>获取PyLinden</h2>
+    <p> 
+      Github地址是这里。（稍后更新）
+    </p> 
+    <p> 
+      程序包下载：<a href="/admin/PyLinden-0.1.zip">PyLinden-0.1</a>
+    </p>
+    <h2>BAE部署方法</h2>
+    <p> 
+      假定你了解BAE环境，概要步骤如下
+    </p> 
+    <ul>
+      <li>新建Web应用，python后台。</li>
+      <li>创建新版本，上传程序包，开启NFS功能，上线（非必要，不过可以使url好看点）。</li>
+      <li>“编辑”：site_source/_posts目录下新建日志即可，格式参考此目录下的示例。</li>
+      <li>假设你的应用url为example.duapp.com，访问example.duapp.com/admin，点击“生成”。</li>
+      <li>访问example.duapp.com。</li>
+    </ul>
+    <h2>本地部署方法</h2>
+    <p> 
+      暂略。如果你有兴趣和精力，看代码可以知晓。
+      文件结构：
+        admin文件夹：包含BAE部署时Web方式的后台操作实现。
+        pygments文件夹：著名的代码高亮项目。
+        pylinden文件夹：主要代码。
+        site_source文件夹：供生成站点的原料。
+        app.conf：BAE部署配置文件。
+        localtest.py：本地部署测试文件。
+        pylinden.wpr和pylinden.wpu：WING IDE项目文件。
+    </p>
+  </div><!--col-->
+  
+  <div class="col-md-4">
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <!-- UY END -->
+  </div><!--col-->
+  
+  </div><!--row-->
+</div><!--container-->
+
+<script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1745270" async=""></script>
+{% endblock %} 

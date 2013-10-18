@@ -1,0 +1,12 @@
+{% extends "_base.html" %} 
+{% block title %}日志{% endblock %} 
+{% block content %} 
+<div class="container">
+    <h1>日志</h1> 
+    <ul>
+	{% for p in site.posts %}
+	    <li>{{ p.date }} - <a href='{{ p.url }}'>{{ p.title }}</a></li>
+	{% endfor %}
+	</ul>
+</div>
+{% endblock %} 
