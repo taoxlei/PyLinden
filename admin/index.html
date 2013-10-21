@@ -21,10 +21,10 @@
 </head>
 <body>
     <div class="container">
-        <button id="btn_hello" type="button" class="btn btn-success">Hello</button>
+        <button id="btn_resetlogger" type="button" class="btn btn-success">重置日志</button>
         <button id="btn_generate" type="button" class="btn btn-success">生成</button>
-        <button id="btn_listoutput" type="button" class="btn btn-success">列出输出目录文件</button>
-        <button id="btn_reset" type="button" class="btn btn-success">重置所有输出</button>
+        <button id="btn_listoutput" type="button" class="btn btn-success">列出输出结果</button>
+        <button id="btn_reset" type="button" class="btn btn-success">重置</button>
         <hr>
         <textarea id="msg" rows="10" cols="50" style="width: 100%; height: 400px; ">返回消息</textarea>
     </div><!-- /container -->
@@ -36,10 +36,10 @@
 
 msgText = "";
 
-function Hello() {
+function Resetlogger() {
     $.ajax({
       type: "GET",
-      url: "/admin/do?cmd=hello",
+      url: "/admin/do?cmd=resetlogger",
       contentType: "application/json",
       dataType: "text",
       error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
@@ -56,6 +56,7 @@ function Generate() {
         dataType: "json",
         error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
         success: function (result) {
+            msgText = "";
             $.each(result, function(i, value){
                msgText += value + '\n'
             })
@@ -74,6 +75,7 @@ function ListOutput() {
         dataType: "json",
         error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
         success: function (result) {
+            msgText = "";
             $.each(result, function(i, value){
                msgText += value + '\n'
             })
@@ -92,6 +94,7 @@ function Reset() {
         dataType: "json",
         error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
         success: function (result) {
+            msgText = "";
             $.each(result, function(i, value){
                msgText += value + '\n'
             })
@@ -103,9 +106,9 @@ function Reset() {
 
 $(document).ready(function () {
     // 一些事件绑定
-    $("#btn_hello").click(function (e) {
+    $("#btn_resetlogger").click(function (e) {
         e.preventDefault();
-        Hello()
+        Resetlogger()
     });
     $("#btn_generate").click(function (e) {
         e.preventDefault();

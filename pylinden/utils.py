@@ -4,9 +4,17 @@ from __future__ import unicode_literals, print_function
 from __future__ import absolute_import
 
 import os, json, codecs, fnmatch, md5
-from . import g
 from datetime import datetime
+from . import g
 
+def singleton(cls):
+    '''decorator for Singleton Pattern'''
+    instances = {}
+    def get_instance():
+        if cls not in instances:
+            instances[cls] = cls()
+        return instances[cls]
+    return get_instance
 
 if g.DEPLOYMENT=='local':
     import logging
@@ -19,9 +27,10 @@ if g.DEPLOYMENT=='local':
     sh.setFormatter(fmt)
     logger.addHandler(sh)
 
+@singleton
 class SimpleLogger(object):
     def __init__(self):
-        self.logs = ['init: ' + str(datetime.now()) + ' - logger init.']
+        self.logs = ['###: ' + str(datetime.now()) + ' - logger initilized.###']
     def debug(self, msg):
         self.logs.append('debug: ' + str(datetime.now()) + ' - ' + msg)
     def info(self, msg):
@@ -36,12 +45,17 @@ class SimpleLogger(object):
 if g.DEPLOYMENT=='BAE':
     logger = SimpleLogger()
 
-            
-def singleton(cls):
-    '''decorator for Singleton Pattern'''
-    instances = {}
-    def get_instance():
-        if cls not in instances:
-            instances[cls] = cls()
-        return instances[cls]
-    return get_instance
+
+def smartwrite(data, target):
+    if not os.path.exists(target):
+        if not os.path.exists(os.path.dirname(target)):
+            os.makedirs(os.path.dirname(target))
+        open(target, 'wb').write(data)
+        logger.info('File writen: %s' % target)
+    else:
+        oldmd5 = md5.new(open(target, 'rb').read()).hexdigest()
+        newmd5 = md5.new(data).hexdigest()
+        if oldmd5 != newmd5:
+            codecs.open(target, 'wb').write(data)
+            logger.info('File writen: %s' % target)
+

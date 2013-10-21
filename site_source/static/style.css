@@ -2,18 +2,25 @@ body {
     font-family: font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei UI", "Microsoft YaHei", SimHei, "\5B8B\4F53", simsun, sans-serif;
     background: url(bg.png) repeat left top;
     margin-top: 40px;
-    
 }
 
 .jumbotron 
 {
-	color: White;
-	background-color: Black;
-	text-shadow:0 1px 3px rgba(0,0,0,0.4),0 0 30px rgba(0,0,0,0.075);
-	background-repeat:repeat-x;
-	background-image:-webkit-linear-gradient(45deg, #020031, #6d3353);
-	background-image:   -moz-linear-gradient(45deg, #020031, #6d3353);
-	background-image:        linear-gradient(45deg, #020031, #6d3353)
+    color: White;
+    background-color: Black;
+    text-shadow:0 1px 3px rgba(0,0,0,0.4),0 0 30px rgba(0,0,0,0.075);
+    background-repeat:repeat-x;
+    background-image:-webkit-linear-gradient(45deg, #020031, #6d3353);
+    background-image:   -moz-linear-gradient(45deg, #020031, #6d3353);
+    background-image:        linear-gradient(45deg, #020031, #6d3353)
+}
+
+.footer 
+{
+    text-align: center;
+    background-color: Black;
+    color: White;
+    margin: 0px;
 }
 
 .dt-box {
@@ -24,32 +31,12 @@ body {
     border-width: 1px;
     border-top-width: 4px;
     padding: 8px;
-	margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 
-.dt-box-simple {
-    border-style: solid;
-    border-width: 0;
-	padding: 4px;
-	margin-bottom: 16px;
-}
-
-.dt-box-blue 
+.galleria
 {
-    border-top-color: #6CF;
+    height: 400px;
+    margin: 8px;
 }
 
-.dt-box-red 
-{
-    border-top-color: #C09;
-}
-
-.dt-box-green 
-{
-    border-top-color: #390;
-}
-
-.dt-box-yellow 
-{
-    border-top-color: #FF0;
-}

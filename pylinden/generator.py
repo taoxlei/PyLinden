@@ -3,14 +3,12 @@
 from __future__ import unicode_literals, print_function
 from __future__ import absolute_import
 
-import os, shutil
+import os, shutil, md5
 from .models import Site
-from .sitekeeper import SiteKeeper
 from .utils import logger
 from . import g, utils
 
 site = Site()
-sitekeeper = SiteKeeper()
 
 class Generator(object):
     def __init__(self):
@@ -22,11 +20,6 @@ class Generator(object):
             os.mkdir(os.path.join(self.output, 'posts'))
                               
     def _copy_static(self):
-        def copy_file(source, target):
-            if not os.path.exists(os.path.dirname(target)):
-                os.makedirs(os.path.dirname(target))
-            open(target, "wb").write(open(source, "rb").read())
-        
         for ld in os.listdir(self.source):
             if (os.path.isdir(os.path.join(self.source, ld))
                 and not ld.startswith('_')
@@ -34,62 +27,58 @@ class Generator(object):
                 for (path, dirs, files) in os.walk(os.path.join(self.source, ld)):
                     for fn in files:
                         fullfn = os.path.join(path, fn)
-                        if sitekeeper.shouldupdate(fullfn):
-                            copy_file(
-                                fullfn, 
-                                os.path.join(
-                                    self.output, 
-                                    os.path.relpath(fullfn, start=self.source)
-                                )
+                        utils.smartwrite(
+                            open(fullfn, 'rb').read(),
+                            os.path.join(
+                                self.output, 
+                                os.path.relpath(fullfn, start=self.source)
                             )
-                            logger.info('File Copied: %s' % fullfn)
-                            sitekeeper.update(fullfn)
+                        )
                             
-                            
+    def _generate_gallery(self):
+        for (path, dirs, files) in os.walk(os.path.join(self.source, '_gallery')):
+            for fn in files:
+                if fn.endswith('.jpg'):
+                    fullfn = os.path.join(path, fn)
+                    utils.smartwrite(
+                        open(fullfn, 'rb').read(),
+                        os.path.join(
+                            self.output, 
+                            os.path.relpath(fullfn, start=self.source)
+                        ).replace('_gallery', 'gallery')
+                    )
+        
     def _generate_pages(self):
         for page in site.pages:
-            if (sitekeeper.shouldupdate(os.path.join(self.source, '_base.html'))
-                or sitekeeper.shouldupdate(page.path)):
-                dest = os.path.join(
-                    os.path.abspath(g.OUTPUT), 
-                    os.path.basename(page.path)
-                )
-                page.render_to(dest)
-                logger.info('Page generated: %s' % page.path)
-                sitekeeper.update(page.path)
+            dest = os.path.join(
+                self.output,
+                os.path.basename(page.path)
+            )
+            data = page.render().encode('utf-8')
+            utils.smartwrite(data, dest)
         
     def _generate_posts(self):
         for post in site.posts:
-            if (sitekeeper.shouldupdate(os.path.join(self.source, '_base.html'))
-                or sitekeeper.shouldupdate(os.path.join(self.source, '_post.html'))
-                or sitekeeper.shouldupdate(post.path)):
-                dest = os.path.join(
-                    os.path.abspath(g.OUTPUT), 
-                    'posts', 
-                    os.path.basename(post.url)
-                )
-                post.render_to(dest)
-                logger.info('Post generated: %s' % post.path)
-                sitekeeper.update(post.path)
-
+            dest = os.path.join(
+                self.output,
+                'posts', 
+                os.path.basename(post.url)
+            )
+            data = post.render().encode('utf-8')
+            utils.smartwrite(data, dest)
         
     def generate(self):
-        # output your site
         self._copy_static()
+        self._generate_gallery()
         self._generate_pages()
         self._generate_posts()
         
-        sitekeeper.update(os.path.join(self.source, '_base.html'))
-        sitekeeper.update(os.path.join(self.source, '_post.html'))
-        
-        # do NOT forget save the history, inscremental generation depends on this
-        sitekeeper.save_records()
         
     def reset(self):
-        sitekeeper.reset_records()
         for (path, dirs, files) in os.walk(self.output):
             for fn in files:
                 os.remove(os.path.join(path, fn))
+                
         #try:
         #    shutil.rmtree(self.output)
         #except:

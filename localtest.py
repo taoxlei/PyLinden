@@ -10,8 +10,8 @@ from pylinden.utils import logger
 from pylinden import utils
 
 gen = Generator()
-#gen.generate()
-gen.reset()
+gen.generate()
+#gen.reset()
 
 logger.info('everything is done!')
 

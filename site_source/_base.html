@@ -9,26 +9,8 @@
 <meta name="author" content="Tao">
 
 <link href="/static/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
-<!--link href="static/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet"-->
-<!-- Custom styles for this template -->
 <link href="/static/style.css" rel="stylesheet">
-
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-  <script src="../../assets/js/html5shiv.js"></script>
-  <script src="../../assets/js/respond.min.js"></script>
-<![endif]-->
 {% block head_append %}{% endblock %}
-<script>
-var _hmt = _hmt || [];
-	(function() {
-	  var hm = document.createElement("script");
-	  hm.src = "//hm.baidu.com/hm.js?5b7794989a8030e734c16386ed89b897";
-	  var s = document.getElementsByTagName("script")[0]; 
-	  s.parentNode.insertBefore(hm, s);
-	})();
-</script>
-
 </head>
 <body>
 
@@ -56,8 +38,15 @@ var _hmt = _hmt || [];
 
 {% block content %}{% endblock %}
 
-<div class="dt-box dt-box-simple text-center" style="background-color:Black;color:White;margin-top:20px;">
+<div class="footer">
+
 Author：<a href="http://taoxiaolei.cn">Tao Xiaolei</a>
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F088c99999d35a9495012f953489c64d4' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
 </div>
 
 <!-- javascript -->

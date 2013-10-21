@@ -1,8 +1,33 @@
 {% extends "_base.html" %} 
 {% block title %}相册{% endblock %} 
+{% block head_append %}
+
+{% endblock %}
 {% block content %} 
 <div class="container">
-    <h1>相册</h1> 
-    <p>未实现。</p>
+    <h2>相册</h2>
+    <div id="galleria" class="galleria"></div>
 </div>
 {% endblock %} 
+{% block body_append %}
+<script src="/static/galleria/galleria-1.3.min.js" rel="stylesheet"></script>
+<script>
+    Galleria.loadTheme('/static/galleria/themes/classic/galleria.classic.min.js');
+    var data = [
+        { 
+            image: "/gallery/default/photo_left.jpg",
+            title: 'photo_left.jpg',
+            description: 'photo_left.jpg description'
+        },
+        {
+            image: "/gallery/default/photo_right.jpg",
+            title: 'photo_right.jpg',
+            description: 'photo_right.jpg description' 
+        }
+    ];
+
+    Galleria.run('#galleria', {
+        dataSource: data,
+    });
+</script>
+{% endblock %}
