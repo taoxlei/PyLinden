@@ -16,7 +16,7 @@ renderer = Renderer()
 class Post(object):
     def __init__(self, path):
         self.path = path
-        self.url = '/' + os.path.join('posts', os.path.splitext(os.path.basename(path))[0] + '.html')
+        self.url = '/posts/' + os.path.splitext(os.path.basename(path))[0] + '.html'
         
         if not os.path.exists(path):
             logger.warning('not exists: ' + path)
@@ -72,6 +72,9 @@ class Posts(object):
         for i in range(len(self.posts)):
             self.posts[i].newer = self.posts[max(i-1,0)]
             self.posts[i].older = self.posts[min(i+1,len(self.posts)-1)]
+            
+    def __iter__(self):
+        return iter(self.posts)
                 
     def get_post(self, path):
         for p in self.posts:
@@ -98,6 +101,7 @@ class Page(object):
         finally:
             fw.close()        
 
+            
 class Pages(object):
     def __init__(self):
         self.pages = []
@@ -106,13 +110,47 @@ class Pages(object):
             if (os.path.isfile(path)
                 and not fn.startswith('_')
                 and not fn.startswith('.')):            
-                
                 self.pages.append(Page(path))
+                
+    def __iter__(self):
+        return iter(self.pages)
+    
+    
+class Tag(object):
+    def __init__(self):
+        self.name = ''
+        self.posts = []
+    def __str__(self):
+        return self.name
+    
+    
+class Tags(object):
+    def __init__(self, posts):
+        _tags_str = []
+        _tags_posts = {}
+        for p in posts:
+            for t in p.tags:
+                if t not in _tags_str:
+                    _tags_str.append(t)
+                    _tags_posts[t] = [p]
+                else:
+                    _tags_posts[t].append(p)
+        self.tags = []
+        for k, v in _tags_posts.iteritems():
+            tag = Tag()
+            tag.name = k
+            tag.posts = v
+            self.tags.append(tag)
+            
+    def __iter__(self):
+        return iter(self.tags)
+        
     
     
 @singleton
 class Site(object):
     '''This Singlenton Class contains everything for your site'''
     def __init__(self):
-        self.posts = Posts().posts
-        self.pages = Pages().pages
+        self.posts = Posts()
+        self.tags = Tags(self.posts)
+        self.pages = Pages()

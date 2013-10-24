@@ -9,7 +9,6 @@ from markdown import Markdown
 from markdown.preprocessors import Preprocessor
 from markdown.postprocessors import Postprocessor
 
-# formatter = HtmlFormatter(style='default', linenos=False, noclasses=True)
 
 class HighlightPreprocessor(Preprocessor):
     def run(self, lines):
@@ -17,14 +16,14 @@ class HighlightPreprocessor(Preprocessor):
         # {% highlight 'html' %} someting {% endhighlight %}
         isInner = False
         for line in lines:
-            mhead = re.match('{%[ ]*highlight(.*)%}', line.strip())
-            mtail = re.match('{%[ ]*endhighlight([ ]*)%}', line.strip())
+            mhead = re.match('^{%[ ]*highlight(.*)%}', line)
+            mtail = re.match('^{%[ ]*endhighlight([ ]*)%}', line)
             if mhead:
                 isInner = True
-                new_lines.append("    {% highlight '" + mhead.group(1).strip(''' '"''') + "' %}")
+                new_lines.append("    :::" + mhead.group(1).strip())
                 continue
             if mtail:
-                new_lines.append("    {% endhighlight %}")
+                new_lines.append("    ")
                 isInner = False
                 continue
             if isInner:
@@ -47,12 +46,10 @@ def func(m):
 
 class Parser(Markdown):
     def __init__(self):
-        Markdown.__init__(self)
+        Markdown.__init__(self, extensions=['codehilite(noclasses=True)'])
         self.preprocessors.insert(0, 'HighlightPreprocessor', HighlightPreprocessor())
         #self.postprocessors.insert(0, 'HighlightPostprocessor', HighlightPostprocessor())
         
     def parse(self, source):
         return self.convert(source)
 
-
-# Start : modify this Python-Markdown built-in extension (CodeHilite) for custom use

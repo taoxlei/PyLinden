@@ -51,11 +51,11 @@ def smartwrite(data, target):
         if not os.path.exists(os.path.dirname(target)):
             os.makedirs(os.path.dirname(target))
         open(target, 'wb').write(data)
-        logger.info('File writen: %s' % target)
+        logger.info('File is writen: %s' % target)
     else:
         oldmd5 = md5.new(open(target, 'rb').read()).hexdigest()
         newmd5 = md5.new(data).hexdigest()
         if oldmd5 != newmd5:
             codecs.open(target, 'wb').write(data)
-            logger.info('File writen: %s' % target)
+            logger.info('File is writen: %s' % target)
 
