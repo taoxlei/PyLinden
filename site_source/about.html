@@ -2,9 +2,16 @@
 {% block title %}关于{% endblock %} 
 {% block content %} 
 <div class="container">
-    <h1>关于</h1> 
-    <div class="alert alert-info"> 
-      aboutttttttttttttttttttttttttttttt
-    </div> 
+    <p> 
+      PyLinden是Python实现的一个静态博客生成系统。
+    </p> 
+    <ul>
+      <li>源于对Github Pages的些许不满意（国外服务商，没有相册功能），以及对python的喜爱。</li>
+      <li>可以轻松部署于BAE（Baidu App Engine），实践云式网络生活方式。</li>
+      <li>仅使用文件系统，摒弃数据库以及BAE的bucket等存储服务。如果要迁移，也几乎只是拷贝文件而已。</li>
+      <li>支持（且仅支持）markdown格式书写日志，如果不清楚markdown的优点请度娘谷哥之。</li>
+      <li>支持代码着色（pygments），兼容Github Pages方式。具体看"日志"里的"代码着色"。</li>
+      <li>基于简单够用的设计哲学构建。在没有大的思想波动的前提下，仅会实现日志与相册两个功能块。</li>
+    </ul>
 </div>
 {% endblock %} 

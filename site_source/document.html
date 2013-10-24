@@ -18,33 +18,42 @@
       <li>基于简单够用的设计哲学构建。在没有大的思想波动的前提下，仅会实现日志与相册两个功能块。</li>
     </ul>
 	
+    <h2>源文件结构</h2>
+    <ul>
+        <li>admin文件夹：包含BAE部署时Web方式的后台实现。</li>
+        <li>pygments文件夹：著名的代码高亮项目，BAE自带的有问题。</li>
+        <li>pylinden文件夹：本项目主要代码。</li>
+        <li>site_source文件夹：供生成站点的原料，你可以修改成自己的风格。</li>
+        <li>app.conf：BAE部署配置文件。</li>
+        <li>local_run.py：本地部署测试脚本。</li>
+        <li>pylinden.wpr和pylinden.wpu：WING IDE项目文件。</li>
+    </ul>
+
     <h2>BAE部署方法</h2>
     <p> 
       假定你了解BAE环境，概要步骤如下
     </p> 
     <ul>
       <li>新建Web应用，python后台。</li>
-      <li>创建新版本，上传程序包，开启NFS功能，上线（非必要，不过可以使url好看点）。</li>
+      <li>创建新版本，上传程序包(程序包应是直接包含admin、pylinden、site_source等内容的zip格式压缩包)。</li>
+      <li>开启NFS功能，上线（非必要，不过可以使url好看点）。</li>
       <li>“编辑”：site_source/_posts目录下新建日志即可，格式参考此目录下的示例。</li>
       <li>假设你的应用url为example.duapp.com，访问example.duapp.com/admin，点击“生成”。</li>
       <li>访问example.duapp.com。</li>
     </ul>
 	
-    <h2>本地部署方法</h2>
-    <p> 
-      暂略。如果你有兴趣和精力，看代码可以知晓。
-	</p>
+    <h2>本地部署相关</h2>
+    <h4>运行要求</h4>
+    <ul>
+      <li>python：版本2.7</li>
+      <li>pygment：代码高亮</li>
+      <li>yaml：yaml格式解析</li>
+      <li>markdown：markdown格式</li>
+      <li>jinja2：模板引擎</li>
+    </ul>
+    <h4>部署方法</h4>
+    <p>查看根目录中的local_run.py文件。</p>
 	
-	<h2>文件结构</h2>
-      <ul>
-        <li>admin文件夹：包含BAE部署时Web方式的后台操作实现。</li>
-        <li>pygments文件夹：著名的代码高亮项目。</li>
-        <li>pylinden文件夹：主要代码。</li>
-        <li>site_source文件夹：供生成站点的原料。</li>
-        <li>app.conf：BAE部署配置文件。</li>
-        <li>localtest.py：本地部署测试文件。</li>
-        <li>pylinden.wpr和pylinden.wpu：WING IDE项目文件。</li>
-      </ul>
   </div><!--col-->
   
   <div class="col-md-4">
