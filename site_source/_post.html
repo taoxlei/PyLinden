@@ -5,7 +5,11 @@
 {% block content %} 
 <div class="container">
     <h2>{{ post.title }}</h2>
-     <span>{{ post.date }}</span>
+    <span>{{ post.date }}</span>
+    {% for t in post.tags %}
+	    <span>{{ t }}</span>
+	{% endfor %}
+	<hr>
     <p>{{ post.html }}</p>
     <a href="{{ post.newer.url }}">较新一篇</a>|<a href="{{ post.older.url }}">较旧一篇</a>|
 </div>
