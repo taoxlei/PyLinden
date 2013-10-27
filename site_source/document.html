@@ -51,14 +51,29 @@
         <p> 
           推荐BAE部署。假定你了解BAE环境，概要步骤如下。
         </p> 
-        <ul>
+        <ol>
           <li>新建Web应用，python后台。</li>
-          <li>创建新版本，上传程序包(程序包应是直接包含admin、pylinden、site_source等内容的zip格式压缩包)。</li>
+          <li>创建新版本，上传程序包。</li>
           <li>开启NFS功能，上线（非必要，不过可以使url好看点）。</li>
-          <li>“编辑”：site_source/_posts目录下新建日志即可，格式参考此目录下的示例。</li>
+          <li>写日志：site_source/_posts目录下新建日志（utf-8 without BOM）即可，格式参考此目录下的示例。</li>
           <li>假设你的应用url为example.duapp.com，访问example.duapp.com/admin，点击“生成”。</li>
           <li>访问example.duapp.com。</li>
-        </ul>
+        </ol>
+        <div class="alert alert-danger">
+          上传程序包时注意：程序包应是直接包含admin、pylinden、site_source等内容的zip格式压缩包，切勿放到一个文件夹里再打包。
+        </div>
+        <p> 
+          BAE提供了定时任务Cron功能。登录BAE，找到“Cron（定时任务）”，新建一个。下图是每分钟“生成”一次的示例。
+          <div style="margin: 10px;">
+            <img class="img-thumbnail" src="/static/doc_cron.jpg" atl="定时任务Cron实例"/>
+          </div>
+          执行URL改成你自己的，类似这样：http://example.duapp.com/admin/do?cmd=generate
+        </p>
+        <div class="alert alert-danger">
+          由于BAE的分布式NFS服务的原因，“生成”完成之后，一般会有几秒到几分钟的延迟才能访问到最新内容。另外，上图示例中定时任务Cron的时间间隔为一分钟，所以也会有几秒的延迟。
+        </div>
+
+        
         <p> 
           不推荐本地部署，但提供以下一些提示。
         </p>
@@ -79,16 +94,16 @@
         </p> 
         <h3>文件编码的问题</h3>
         <p> 
-          与Github Pages相同，所有的文本文件请全部使用utf-8 without BOM格式保存。
+          与Github Pages相同，所有的文本文件请使用utf-8 without BOM格式保存。
         </p> 
-        <p> 
-          PS: Windows XP自带的记事本无法保存成这种格式的！
-        </p> 
+        <div class="alert alert-danger">
+          Windows XP自带的记事本无法保存成这种格式的！
+        </div>
         <h3>site_source文件结构说明</h3>
         <p> 
           此文件夹包含了最终被生成的静态博客的原料，是部署完成后使用最频繁的文件夹。 
         </p> 
-        <p>以[下划线]或者[点]开头的文件夹和文件是：特殊文件夹和文件、隐藏文件夹和文件。</p>
+        <p>以<code>_</code>(下划线)或者<code>.</code>(点)开头的文件夹和文件是：特殊文件夹和文件、隐藏文件夹和文件。</p>
         <ul>
           <li>_posts文件夹：此文件夹包含了以markdown格式书写的日志文件。有类似Github Pages一样的文件头；文件后缀不要求.md或者.markdown。</li>
           <li>_gallery文件夹：此文件夹包含了生成相册的原料。</li>
@@ -114,6 +129,10 @@
                 <li>site.post[i].title: 标题。</li>
                 <li>site.post[i].date: 日期。</li>
                 <li>site.post[i].tags: 标签。</li>
+                <li>site.post[i].html: 已经渲染成HTML格式的日志正文。</li>
+                <li>site.post[i].url: 日志的URL，如<code>/posts/hello-world.html。</code></li>
+                <li>site.post[i].older: 较旧的一篇日志，即site.posts[i-1]或者site.posts[0]。</li>
+                <li>site.post[i].newer: 较新的一篇日志。</li>
               </ul>
             <li>site.tags: 所有日志的标签的集合。</li>
           </ul>
