@@ -4,14 +4,8 @@ from __future__ import unicode_literals, print_function
 from __future__ import absolute_import
 
 import os, codecs, re, yaml
-from .utils import logger
-from .parser import Parser
-from .utils import singleton
-from .renderer import Renderer
-from . import g, utils
-
-parser = Parser()
-renderer = Renderer()    
+from ..utils import logger
+from . import Processor
 
 class Post(object):
     def __init__(self, path):
@@ -57,7 +51,7 @@ class Post(object):
         finally:
             fw.close()        
 
-class Posts(object):
+class PostProcessor(Processor):
     def __init__(self):
         posts_dir = os.path.join(os.path.abspath(g.SOURCE), '_posts')
         self.posts = []
@@ -82,75 +76,3 @@ class Posts(object):
                 return p
         raise Exception('Not Found: ' + path)
 
-        
-class Page(object):
-    def __init__(self, path):
-        self.path = path
-        
-    def render(self):
-        self.html = renderer.render(os.path.basename(self.path), site=Site())
-        return self.html
-    
-    def render_to(self, path):
-        html = self.render()
-        fw = codecs.open(path, 'w', 'utf_8_sig')
-        try:
-            fw.write(html)
-        except Exception as e:
-            logger.error(e.message)
-        finally:
-            fw.close()        
-
-            
-class Pages(object):
-    def __init__(self):
-        self.pages = []
-        for fn in os.listdir(g.SOURCE):
-            path = os.path.join(os.path.abspath(g.SOURCE), fn)
-            if (os.path.isfile(path)
-                and not fn.startswith('_')
-                and not fn.startswith('.')):            
-                self.pages.append(Page(path))
-                
-    def __iter__(self):
-        return iter(self.pages)
-    
-    
-class Tag(object):
-    def __init__(self):
-        self.name = ''
-        self.posts = []
-    def __str__(self):
-        return self.name
-    
-    
-class Tags(object):
-    def __init__(self, posts):
-        _tags_str = []
-        _tags_posts = {}
-        for p in posts:
-            for t in p.tags:
-                if t not in _tags_str:
-                    _tags_str.append(t)
-                    _tags_posts[t] = [p]
-                else:
-                    _tags_posts[t].append(p)
-        self.tags = []
-        for k, v in _tags_posts.iteritems():
-            tag = Tag()
-            tag.name = k
-            tag.posts = v
-            self.tags.append(tag)
-            
-    def __iter__(self):
-        return iter(self.tags)
-        
-    
-    
-@singleton
-class Site(object):
-    '''This Singlenton Class contains everything for your site'''
-    def __init__(self):
-        self.posts = Posts()
-        self.tags = Tags(self.posts)
-        self.pages = Pages()

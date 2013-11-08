@@ -6,7 +6,7 @@
 <div class="jumbotron">
   <div class="container text-center">
     <h1>PyLinden</h1>
-    <p>PyLinden是Python实现的一个静态博客生成系统。纯文件储存，增量生成，Github Pages兼容。。。</p>
+    <p>PyLinden是Python实现的一个静态博客生成系统。</p>
     <p>
       <a class="btn btn-primary btn-lg" href="https://github.com/lingyunyumo/PyLinden">马上获取(Github)</a>
       <a class="btn btn-primary btn-lg" href="/document.html">查看文档</a>
@@ -16,13 +16,40 @@
 
 <div class="container">
 
-    <h2>此站点便是PyLinden生成的一个静态博客实例。</h2> 
+  <h2>2013-11-08:持续重构ing。</h2> 
+  
+  <h3>此站点便是PyLinden生成的博客实例。</h3> 
+  
+  <div class="row">
 
-    <hr>
+    <div class="col-sm-12 col-md-6">
+      <h3>特征:</h3>
+      <ul>
+        <li>静态页面，没有数据库，没有动态请求，没有大Django。</li>
+        <li>支持部署到BAE（Baidu App Engine）。</li>
+        <li>纯文件存储，一切皆文件。</li>
+        <li>支持代码着色（pygments）。</li>
+        <li>Github Pages兼容，几乎只是Copy过来的事情。</li>
+        <li>增量生成，逻辑上没有修改则不会产生写磁盘操作。</li>
+        <li>支持（且仅支持）markdown格式书写日志。</li>
+        <li>基于简单够用的设计哲学构建。</li>
+      </ul>
+    </div>
+    
+    <div class="col-sm-12 col-md-6">
+      <h3>感谢:</h3>
+      <ul>
+        <li>前端：Jquery, Bootstrap-v3</li>
+        <li>Python：pyYAML, markdown, jinja2, pygments, web.py</li>
+        <li>部署：BAE(Baidu App Engine)</li>
+      </ul>
+    </div>
 
-    <!-- UY BEGIN -->
-    <div id="uyan_frame"></div>
-    <!-- UY END -->
+  </div>
+
+  <!-- UY BEGIN -->
+  <div id="uyan_frame"></div>
+  <!-- UY END -->
 
 </div><!--container-->
 

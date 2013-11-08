@@ -2,11 +2,41 @@
 {% block title %}日志{% endblock %} 
 {% block content %} 
 <div class="container">
-    <h1>日志</h1> 
-    <ul>
-	{% for p in site.posts %}
-	    <li>{{ p.date }} - <a href='{{ p.url }}'>{{ p.title }}</a></li>
-	{% endfor %}
-	</ul>
+  <div class="row">
+
+    <div class="col-md-6">
+        <h1>按时间</h1> 
+        <ul>
+        {% for p in site.posts %}
+            <li>{{ p.date }} - <a href='{{ p.url }}'>{{ p.title }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div class="col-md-6" style="line-height:2.2;">
+      <h2>按标签</h2> 
+      {% for tag in site.tags %}
+      <button type="button" data-trigger="focus" 
+      class="btn btn-sm btn-default"
+      data-container="body" data-toggle="popover" data-html=true 
+      data-placement="bottom" 
+      data-content='
+        <ul>
+            {% for p in tag.posts %}
+            <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+            {% endfor %}
+        </ul>
+      '>{{ tag }}
+      </button>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 {% endblock %} 
+
+{% block body_append %}
+<script type="text/javascript">
+  $("[data-toggle=tooltip]").tooltip()
+  $("[data-toggle=popover]").popover()
+</script>
+{% endblock %}

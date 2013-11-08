@@ -2,15 +2,6 @@
 
 from __future__ import unicode_literals, print_function
 
+import pylinden
 
-#import pylinden.cli
-
-#pylinden.cli.CLI().cmdloop()
-
-from pylinden.generator import Generator
-
-gen = Generator()
-gen.generate()
-
-
-
+pylinden.pylinden()
