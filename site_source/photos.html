@@ -1,0 +1,20 @@
+{% extends "_base.html" %} 
+{% block title %}照片{% endblock %} 
+{% block content %} 
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-6">
+        <ul>
+        {% for p in site.photos %}
+            <li>{{ p.path }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+  </div>
+</div>
+{% endblock %} 
+
+{% block body_append %}
+{% endblock %}

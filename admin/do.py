@@ -12,18 +12,6 @@ class DoHandler:
         cmd = web.input().cmd
         if cmd=='hello':
             return 'hello world!'
-        if cmd=='pylinden':
-            try:
-                pylinden.pylinden(
-                    deployment='BAE',
-                    source=os.path.join(APP_DIR, 'site_source'),
-                    output=os.path.join(APP_DIR, 'site_output_bae')
-                    )
-                return 'OK'
-            except Exception as e:
-                return e.message
-        if cmd=='resetlogger':
-            pass
         if cmd=='generate':
             try:
                 pylinden.pylinden(
@@ -36,18 +24,13 @@ class DoHandler:
                 return e.message
         if cmd=='listoutput':
             ls = []
-            for (path, dirs, files) in os.walk(g.OUTPUT):
+            for (path, dirs, files) in os.walk(os.path.join(APP_DIR, 'site_output_bae')):
                 for f in files:
-                    ls.append(os.path.relpath(os.path.join(path,f),start=g.OUTPUT))
+                    ls.append(os.path.relpath(os.path.join(path,f),
+                                              start=os.path.join(APP_DIR, 'site_output_bae')
+                                              )
+                              )
             return json.dumps(ls)
-        if cmd=='reset':
-            #try:
-            #    gen = Generator()
-            #    gen.reset()
-            #except Exception as e:
-            #    logger.error("reset failed. ")
-            #return json.dumps(logger.logs)
-            return 'not imp'
         
         return 'nothing happened.'
 

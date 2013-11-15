@@ -4,7 +4,7 @@ from __future__ import unicode_literals, print_function
 from __future__ import absolute_import
 
 import os, codecs, re, yaml
-from .. import util      
+from .. import util
 
 class StaticFileProcessor(object):
     def __init__(self, pylinden_instance):

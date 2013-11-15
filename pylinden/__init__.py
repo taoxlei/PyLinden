@@ -2,10 +2,12 @@
 
 from __future__ import unicode_literals, print_function
 from __future__ import absolute_import
+import __builtin__
 from .processors import staticfileprocessor
 from .processors import postprocessor
+from .processors import photoprocessor
 from .processors import commonpageprocessor
-from . import util
+from . import logging
 
 class PyLinden(object):
     option_defaults = {
@@ -19,22 +21,20 @@ class PyLinden(object):
         for option, default in self.option_defaults.items():
             setattr(self, option, kwargs.get(option, default))
 
-        if self.deployment == 'local':
-            self.logger = util.getbuiltinlogger()
-        elif self.deployment == 'BAE':
-            self.logger = util.getcustomlogger()
+        __builtin__.logger = logging.getLogger(self.deployment)
 
     def build_processors(self):
-        self.processors = {}
-        self.processors['staticfileprocessor'] = staticfileprocessor.StaticFileProcessor(self)
-        self.processors['postprocessor'] = postprocessor.PostProcessor(self)
-        self.processors['commonpageprocessor'] = commonpageprocessor.CommonPageProcessor(self)
+        self.processors = []
+        self.processors.append(staticfileprocessor.StaticFileProcessor(self))
+        self.processors.append(postprocessor.PostProcessor(self))
+        self.processors.append(photoprocessor.PhotoProcessor(self))
+        self.processors.append(commonpageprocessor.CommonPageProcessor(self))
     
     def generate(self):
         self.build_processors()
-        for p in self.processors.values():
+        for p in self.processors:
             p.run()
-        print('gened')
+        print('everything is done!')
     
 """
 EXPORTED FUNCTIONS

@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="container">
-        <button id="btn_resetlogger" type="button" class="btn btn-success">重置日志</button>
+        <button id="btn_hello" type="button" class="btn btn-success">Hello</button>
         <button id="btn_generate" type="button" class="btn btn-success">生成</button>
         <button id="btn_listoutput" type="button" class="btn btn-success">列出输出结果</button>
         <button id="btn_reset" type="button" class="btn btn-success">重置</button>
@@ -36,10 +36,10 @@
 
 msgText = "";
 
-function Resetlogger() {
+function Hello() {
     $.ajax({
       type: "GET",
-      url: "/admin/do?cmd=resetlogger",
+      url: "/admin/do?cmd=hello",
       contentType: "application/json",
       dataType: "text",
       error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
@@ -53,20 +53,16 @@ function Generate() {
         type: "GET",
         url: "/admin/do?cmd=generate",
         contentType: "application/json",
-        dataType: "json",
+        dataType: "text",
         error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
         success: function (result) {
-            msgText = "";
-            $.each(result, function(i, value){
-               msgText += value + '\n'
-            })
-            $("#msg").text(msgText);
+
+            $("#msg").text(result);
         }
     });
 }
   
 function ListOutput() {
-    msgText = ''
     $.ajax({
         type: "GET",
         url: "/admin/do?cmd=listoutput",
@@ -83,32 +79,12 @@ function ListOutput() {
         }
     });
 }
-  
-  
-function Reset() {
-    $.ajax({
-        type: "GET",
-      url: "/admin/do?cmd=reset",
-      //data: JSON.stringify(data),
-        contentType: "application/json",
-        dataType: "json",
-        error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
-        success: function (result) {
-            msgText = "";
-            $.each(result, function(i, value){
-               msgText += value + '\n'
-            })
-            $("#msg").text(msgText);
-        }
-    });
-}
-
 
 $(document).ready(function () {
     // 一些事件绑定
-    $("#btn_resetlogger").click(function (e) {
+    $("#btn_hello").click(function (e) {
         e.preventDefault();
-        Resetlogger()
+        Hello()
     });
     $("#btn_generate").click(function (e) {
         e.preventDefault();

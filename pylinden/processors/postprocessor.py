@@ -38,13 +38,13 @@ class Post(object):
         self.url = '/posts/' + os.path.splitext(os.path.basename(path))[0] + '.html'
         
         if not os.path.exists(path):
-            logger.warning('not exists: ' + path)
+            raise Exception('Post NOT exists: ' + path)
         
-        f = codecs.open(path, encoding='utf-8')
+        f = codecs.open(self.path, encoding='utf-8')
         try:
             self._text = f.read()
-        except Exception as e:
-            logger.error(e.message)
+        except:
+            raise Exception('Read failed: ' + self.path)
         finally:
             f.close()
         
@@ -74,9 +74,8 @@ class Post(object):
         try:
             temp = self.env.get_template('_post.html')
             self.html = temp.render(site=self.pi, post=self)
-        except Exception as e:
-            self.pi.logger.error(e.message)
-        
+        except:
+            raise Exception('Post render failed: ' + self.path)        
         return self.html     
 
 class PostProcessor(Processor):
@@ -90,7 +89,7 @@ class PostProcessor(Processor):
             try:
                 self.pi.posts.append(Post(os.path.join(posts_dir, p)))
             except Exception as e:
-                self.pi.logger.warning(e.message)
+                logger.warning(e.message)
         self.pi.posts.sort(key = lambda one: one.date, reverse = True)
         
         # add 'newer' and 'older' attribute to each post object
