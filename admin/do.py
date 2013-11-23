@@ -7,6 +7,9 @@ import web
 from bae.core.const import APP_DIR
 import pylinden
 
+import __builtin__
+
+
 class DoHandler:
     def GET(self):
         cmd = web.input().cmd
@@ -19,7 +22,8 @@ class DoHandler:
                     source=os.path.join(APP_DIR, 'site_source'),
                     output=os.path.join(APP_DIR, 'site_output_bae')
                     )
-                return 'OK'
+                logger = __builtin__.logger
+                return json.dumps(logger.logs)
             except Exception as e:
                 return e.message
         if cmd=='listoutput':

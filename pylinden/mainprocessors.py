@@ -7,8 +7,10 @@ import os, codecs, re, yaml
 from markdown import Markdown
 from markdown.preprocessors import Preprocessor
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound, Template
-from . import Processor
-from .. import util
+from . import utils
+
+# =============================================================================
+# PostProcessor
 
 class HighlightPreprocessor(Preprocessor):
     def run(self, lines):
@@ -78,7 +80,7 @@ class Post(object):
             raise Exception('Post render failed: ' + self.path)        
         return self.html     
 
-class PostProcessor(Processor):
+class PostsProcessor(object):
     def __init__(self, pylinden_instance):
         self.pi = pylinden_instance
 
@@ -104,5 +106,30 @@ class PostProcessor(Processor):
                 os.path.basename(post.url)
             )
             data = post.render(self.pi).encode('utf-8')
-            util.smartwrite(data, dest)
+            utils.smartwrite(data, dest)
 
+# End of PostProcessor
+# =============================================================================
+
+
+# =============================================================================
+# PhotoProcessor
+
+class Photo(object):
+    def __init__(self, path):
+        self.path = path
+        self.url = '/photos/foobar'
+
+class PhotosProcessor(object):
+    def __init__(self, pylinden_instance):
+        self.pi = pylinden_instance
+
+    def run(self):
+        photos_dir = os.path.join(os.path.abspath(self.pi.source), '_photos')
+        self.pi.photos = []
+        for dirpath, dirnames, filenames in os.walk(photos_dir):
+        	for fn in filenames:
+        	    self.pi.photos.append(Photo(os.path.join(dirpath, fn)))
+
+# End of PhotoProcessor
+# =============================================================================

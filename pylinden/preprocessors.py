@@ -3,10 +3,10 @@
 from __future__ import unicode_literals, print_function
 from __future__ import absolute_import
 
-import os, codecs, re, yaml
-from .. import util
+import os
+from . import utils   
 
-class StaticFileProcessor(object):
+class StaticFilesProcessor(object):
     def __init__(self, pylinden_instance):
         self.pi = pylinden_instance
             
@@ -18,12 +18,10 @@ class StaticFileProcessor(object):
                 for (path, dirs, files) in os.walk(os.path.join(self.pi.source, ld)):
                     for fn in files:
                         fullfn = os.path.join(path, fn)
-                        util.smartwrite(
+                        utils.smartwrite(
                             open(fullfn, 'rb').read(),
                             os.path.join(
                                 self.pi.output, 
                                 os.path.relpath(fullfn, start=self.pi.source)
                             )
                         )
-
-

@@ -5,7 +5,7 @@ from __future__ import absolute_import
 
 import os, codecs, re, yaml
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound, Template
-from .. import util      
+from . import utils     
 
 class Page(object):
     def __init__(self, path):
@@ -37,4 +37,4 @@ class CommonPageProcessor(object):
                 data = temp.render(site=self.pi).encode('utf-8')
             except Exception as e:
                 self.pi.logger.error(e.message)
-            util.smartwrite(data, dest)
+            utils.smartwrite(data, dest)

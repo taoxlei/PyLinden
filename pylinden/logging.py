@@ -1,4 +1,16 @@
 #-*- coding:utf-8 -*-
+"""
+A wrapper for the builtin Python module 'logging'.
+
+    logging.getLogger(deployment='local')
+    
+return a original Python logger.
+
+    logging.getLogger(deployment='BAE')
+    
+return a simple logger for BAE(Baidu App Engine), because
+BAE restricted the original Python logging module.
+"""
 
 from __future__ import unicode_literals, print_function
 from __future__ import absolute_import
@@ -18,6 +30,8 @@ def singleton(cls):
 
 @singleton
 class SimpleLogger(object):
+    """A simple logger."""
+    
     def __init__(self):
         self.logs = ['###: ' + str(datetime.now()) + ' - logger initilized.###']
     def debug(self, msg):
@@ -33,6 +47,15 @@ class SimpleLogger(object):
 
 
 def getLogger(deployment='local'): # 'local' or 'BAE'
+    """
+    Get a logger object.
+
+    Keyword arguments:
+
+    * deployment: A string of deployment type.
+                  'local' or 'BAE', default is 'local'.
+
+    """
     if deployment=='local':
         logging.getLogger().setLevel(logging.NOTSET)
         logger = logging.getLogger('pylinden')

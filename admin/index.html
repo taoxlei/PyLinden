@@ -53,11 +53,14 @@ function Generate() {
         type: "GET",
         url: "/admin/do?cmd=generate",
         contentType: "application/json",
-        dataType: "text",
+        dataType: "json",
         error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); },
         success: function (result) {
-
-            $("#msg").text(result);
+            msgText = "";
+            $.each(result, function(i, value){
+               msgText += value + '\n'
+            })
+            $("#msg").text(msgText);
         }
     });
 }
