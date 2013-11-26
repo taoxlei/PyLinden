@@ -1,20 +1,38 @@
 {% extends "_base.html" %} 
 {% block title %}照片{% endblock %} 
+
+{% block head_append %}
+<style type="text/css">
+.item {
+    padding: 4px;
+    width: 25%;
+}
+.item img{
+  width: 100%;
+}
+</style>
+{% endblock %}
+
 {% block content %} 
-<div class="container">
-  <div class="row">
-
-    <div class="col-md-6">
-        <ul>
-        {% for p in site.photos %}
-            <li>{{ p.path }}</li>
-        {% endfor %}
-        </ul>
+{% for a in site.albums %}
+    <h3>{{ a.name }}<h3>
+    <div id="photos">
+      {% for p in a.photos %}
+      <div class="item"><img src="{{ p.url }}" /></div>
+      {% endfor %}
     </div>
-
-  </div>
-</div>
+{% endfor %}
 {% endblock %} 
 
 {% block body_append %}
+<script src="/static/masonry.pkgd.min.js"></script>
+<script>
+$(document).ready(function(){
+  $('#photos').masonry({
+    //columnWidth: 250,
+    itemSelector : '.item',
+    isAnimated: true
+  });
+});
+</script>
 {% endblock %}

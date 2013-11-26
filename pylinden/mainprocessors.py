@@ -116,20 +116,35 @@ class PostsProcessor(object):
 # PhotoProcessor
 
 class Photo(object):
-    def __init__(self, path):
-        self.path = path
-        self.url = '/photos/foobar'
+    def __init__(self, url):
+        self.url = url
+
+class Album(object):
+    def __init__(self, name):
+        self.name = name
+        self.photos = []
+
+    def addphoto(self, photo):
+        self.photos.append(photo)
 
 class PhotosProcessor(object):
     def __init__(self, pylinden_instance):
         self.pi = pylinden_instance
 
     def run(self):
-        photos_dir = os.path.join(os.path.abspath(self.pi.source), '_photos')
-        self.pi.photos = []
-        for dirpath, dirnames, filenames in os.walk(photos_dir):
-        	for fn in filenames:
-        	    self.pi.photos.append(Photo(os.path.join(dirpath, fn)))
+        src_dir = os.path.join(os.path.abspath(self.pi.source), '_photos')
+        dest_dir = os.path.join(os.path.abspath(self.pi.output), 'photos')
+        self.pi.albums = []
+        for dn in [dn for dn in os.listdir(src_dir) if os.path.isdir(os.path.join(src_dir, dn))]:
+            album = Album(dn)
+            for fn in [fn for fn in os.listdir(os.path.join(src_dir, dn))]:
+                if os.path.isfile(os.path.join(src_dir, dn, fn)):
+                    album.addphoto(Photo('/' + '/'.join(['photos', dn, fn])))
+                    #album.addphoto(Photo('/'.join(['photos', dn, fn])))
+                    src = os.path.join(src_dir, dn, fn) 
+                    dest = os.path.join(dest_dir, dn, fn)
+                    utils.smartwrite(open(src, 'rb').read(), dest)
+            self.pi.albums.append(album)
 
 # End of PhotoProcessor
 # =============================================================================
