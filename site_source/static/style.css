@@ -18,9 +18,23 @@ body {
 .footer 
 {
     text-align: center;
-    background-color: Black;
-    color: White;
-    margin: 0px;
+
+    background-color: #FFF;
+    border-color: #999;
+    border-top-color: #999;
+    border-style: solid;
+    border-width: 1px;
+    border-top-width: 4px;
+    padding: 8px;
+    margin-bottom: 16px;
+
+    border-style: solid;
+    border-width: 0;
+    border-top-width: 4px;
+    border-bottom-width: 4px;
+    padding: 4px;
+    margin-bottom: 16px;
+
 }
 
 .dt-box {
